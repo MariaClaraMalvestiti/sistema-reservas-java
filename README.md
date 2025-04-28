@@ -36,12 +36,13 @@ El proyecto sigue una estructura de paquetes organizada:
 
 Configuración de la Base de Datos:
 
-Crear una base de datos en MySQL, por ejemplo:
-
+1. Crear una base de datos en MySQL, por ejemplo:
+```sql
 CREATE DATABASE reservasdb;
+```
 
-Crear la tabla correspondiente:
-
+2. Crear la tabla correspondiente:
+```sql
 CREATE TABLE reservas (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nombre_reserva VARCHAR(50),
@@ -49,22 +50,24 @@ CREATE TABLE reservas (
   fecha_reserva DATE,
   hora_reserva TIME
 );
+```
 
-Actualizar los datos de conexión en el proyecto (ReservaDAO o donde corresponda):
-
+3. Actualizar los datos de conexión en el proyecto (ReservaDAO o donde corresponda):
+```java
 private static final String URL = "jdbc:mysql://localhost:3306/reservasdb";
 private static final String USER = "tu_usuario";
 private static final String PASSWORD = "tu_contraseña";
+```
+¿Cómo ejecutar?
 
-Cómo ejecutar
-
-Clonar el repositorio:
-
+1. Clonar el repositorio:
+```bash
 git clone https://github.com/MariaClaraMalvestiti/sistema-reservas-db.git
+```
 
-Importarlo en tu IDE favorito.
+2. Importarlo en tu IDE favorito.
 
-Ejecutar el programa iniciando MenuAppReservas.
+3. Ejecutar el programa iniciando MenuAppReservas.
 
 
 Autor:
