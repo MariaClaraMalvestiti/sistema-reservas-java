@@ -11,11 +11,25 @@ import java.util.List;
 import reservasDB.dominio.Reserva;
 import static reservasDB.conexion.Conexion.getConexion;
 
+/**
+ * Implementación de la interfaz IReservaDAO que proporciona
+ * métodos para realizar operaciones CRUD (Create, Read, Update, Delete)
+ * sobre la entidad Reserva en la base de datos.
+ * 
+ * Esta clase gestiona la persistencia de las reservas en la base de datos,
+ * incluyendo validaciones como evitar reservas duplicadas en la misma fecha y hora.
+ */
+
 public class ReservaDAO implements IReservaDAO {
-	
-	   /**
-     * Método auxiliar para cerrar recursos JDBC de manera segura
-     */
+		
+	/**
+     * Método auxiliar para cerrar recursos JDBC de manera segura.
+     * Cierra en orden ResultSet, PreparedStatement y Connection.
+     * 
+     * @param rs ResultSet a cerrar
+     * @param ps PreparedStatement a cerrar
+     * @param con Connection a cerrar
+     */  
 	
     private void cerrarRecursos(ResultSet rs, PreparedStatement ps, Connection con) {
         try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
@@ -23,6 +37,14 @@ public class ReservaDAO implements IReservaDAO {
         try { if (con != null) con.close(); } catch (SQLException e) { e.printStackTrace(); }
     }
 	
+    /**
+     * Recupera todas las reservas almacenadas en la base de datos.
+     * Las reservas se devuelven ordenadas por su ID.
+     * 
+     * @return Lista de objetos Reserva. Si no hay reservas o ocurre un error,
+     *         se devuelve una lista vacía.
+     */
+    
 	@Override
 	public List<Reserva> listarReservas() {
 		List<Reserva> reservas = new ArrayList<>();
@@ -60,6 +82,14 @@ public class ReservaDAO implements IReservaDAO {
 		return reservas;
 	}
 	
+	 /**
+     * Busca una reserva por su ID y completa los datos del objeto Reserva proporcionado.
+     * 
+     * @param reserva Objeto Reserva con el ID a buscar. Si se encuentra, este objeto
+     *                será actualizado con los datos encontrados en la base de datos.
+     * @return true si la reserva fue encontrada, false en caso contrario o si ocurre un error.
+     */
+	
 	@Override
 	public boolean buscarReservaPorId(Reserva reserva) {
 		Connection con = null;
@@ -93,6 +123,16 @@ public class ReservaDAO implements IReservaDAO {
         }
 		return encontrado;
 	}
+	
+	 /**
+     * Agrega una nueva reserva a la base de datos.
+     * Valida que no exista otra reserva en la misma fecha y hora antes de insertar.
+     * Si la inserción es exitosa, actualiza el ID del objeto Reserva con el generado por la base de datos.
+     * 
+     * @param reserva Objeto Reserva con los datos a insertar.
+     * @return true si la reserva fue agregada correctamente, false si ya existe una reserva
+     *         en la misma fecha y hora, o si ocurre un error durante la inserción.
+     */
 	
 	@Override
 	public boolean agregarReserva(Reserva reserva) {
@@ -146,6 +186,16 @@ public class ReservaDAO implements IReservaDAO {
 	return resultado;
 	}
 
+	/**
+     * Actualiza los datos de una reserva existente en la base de datos.
+     * Valida que la reserva exista y que no haya otra reserva en la misma fecha y hora.
+     * 
+     * @param reserva Objeto Reserva con los datos actualizados. El ID debe corresponder
+     *                a una reserva existente en la base de datos.
+     * @return true si la reserva fue actualizada correctamente, false si no existe la reserva,
+     *         ya existe otra reserva en la misma fecha y hora, o si ocurre un error durante la actualización.
+     */
+	
 	@Override
 	public boolean actualizarReserva(Reserva reserva) {
 		Connection con = null;
@@ -207,6 +257,14 @@ public class ReservaDAO implements IReservaDAO {
 		return resultado;
 	}
 
+	/**
+     * Elimina una reserva de la base de datos.
+     * 
+     * @param reserva Objeto Reserva que contiene el ID de la reserva a eliminar.
+     * @return true si la reserva fue eliminada correctamente, false si no se encontró
+     *         la reserva o si ocurre un error durante la eliminación.
+     */
+	
 	@Override
 	public boolean eliminarReserva(Reserva reserva) { 
 		Connection con = null;

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
 
+//Clase base que representa el concepto básico de una reserva
 public class Reserva implements Serializable {
 	private int id;
 	private String nombreReserva;
@@ -20,7 +21,8 @@ public class Reserva implements Serializable {
 		this.id = id;
 	}
 	
-	public Reserva(String nombreCliente, String apellidoCliente, LocalDate fechaReserva, LocalTime horaReserva) {
+	//Constructor con parámetros
+	public Reserva(String nombreReserva, String apellidoReserva, LocalDate fechaReserva, LocalTime horaReserva) {
 		this();
 		this.nombreReserva = nombreReserva;
 		this.apellidoReserva = apellidoReserva;
@@ -28,6 +30,7 @@ public class Reserva implements Serializable {
 		this.horaReserva = horaReserva;
 	}
 	
+	//Setters y getters
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -66,10 +69,6 @@ public class Reserva implements Serializable {
 
 	public void setHoraReserva(LocalTime hora) {
 		this.horaReserva = hora;
-	}
-	
-	public String escribirReserva() {
-		return id + "," + nombreReserva + "," + apellidoReserva + "," + fechaReserva + "," + horaReserva;
 	}
 	
 	@Override

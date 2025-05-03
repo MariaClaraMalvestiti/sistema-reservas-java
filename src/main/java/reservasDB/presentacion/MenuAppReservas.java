@@ -5,10 +5,20 @@ import java.util.Scanner;
 import reservasDB.dominio.Reserva;
 import reservasDB.servicio.ReservaService;
 
+/**
+ * Clase que implementa el menú de la aplicación de gestión de reservas.
+ * Proporciona una interfaz de usuario en consola para realizar operaciones CRUD
+ * (Crear, Leer, Actualizar, Eliminar) sobre las reservas.
+ */
+
 public class MenuAppReservas {
 	
-	   /**
-     * Método principal que ejecuta el menú de la aplicación
+	 /**
+     * Método principal que ejecuta el menú de la aplicación.
+     * Inicializa los recursos necesarios, muestra el menú y maneja las 
+     * opciones seleccionadas por el usuario hasta que decide salir.
+     * 
+     * @throws Exception Si ocurre algún error durante la ejecución de la aplicación
      */
 	
 	public static void menuAppReservas() {
@@ -34,6 +44,13 @@ public class MenuAppReservas {
 		}
 	}
 	
+	/**
+     * Muestra el menú principal de la aplicación y captura la opción seleccionada por el usuario.
+     * 
+     * @param consola Scanner utilizado para leer la entrada del usuario
+     * @return int número de la opción seleccionada (0 si la entrada no es válida)
+     */
+	
 	private static int mostrarMenu(Scanner consola) {
 		System.out.println();
 		System.out.println(" *** Sistema de Reservas *** ");
@@ -54,8 +71,13 @@ public class MenuAppReservas {
 		}
 	}
 	
-	 /**
-     * Ejecuta la opción seleccionada por el usuario
+	/**
+     * Ejecuta la opción seleccionada por el usuario en el menú principal.
+     * 
+     * @param consola Scanner utilizado para leer la entrada del usuario
+     * @param opcion Número de la opción seleccionada por el usuario
+     * @param reservaServ Servicio de reservas que contiene la lógica de negocio
+     * @return boolean Retorna true si el usuario decidió salir de la aplicación, false en caso contrario
      */
 	
 	private static boolean ejecutarOpciones(Scanner consola, int opcion, ReservaService reservaServ) { 
@@ -85,7 +107,10 @@ public class MenuAppReservas {
 }
 	
 	 /**
-     * Muestra todas las reservas existentes
+     * Muestra todas las reservas existentes en el sistema.
+     * Si no hay reservas, muestra un mensaje indicándolo.
+     * 
+     * @param reservaServ Servicio de reservas que contiene la lógica de negocio
      */
 	
 	private static void mostrarReservas(ReservaService reservaServ) {
@@ -95,8 +120,11 @@ public class MenuAppReservas {
         }
     }
 	
-	 /**
-     * Busca una reserva por su ID
+	/**
+     * Busca una reserva por su ID y muestra su información.
+     * Solicita al usuario que ingrese el ID de la reserva que desea buscar.
+     * 
+     * @param reservaServ Servicio de reservas que contiene la lógica de negocio
      */
 	
     private static void buscarReserva(ReservaService reservaServ) {
@@ -112,7 +140,11 @@ public class MenuAppReservas {
     }
     
     /**
-     * Agrega una nueva reserva
+     * Agrega una nueva reserva al sistema.
+     * Solicita al usuario que ingrese todos los datos necesarios para crear una reserva.
+     * Valida cada campo antes de intentar realizar la inserción.
+     * 
+     * @param reservaServ Servicio de reservas que contiene la lógica de negocio
      */
     
     private static void agregarReserva(ReservaService reservaServ) {
@@ -134,7 +166,11 @@ public class MenuAppReservas {
     }
     
     /**
-     * Actualiza una reserva existente
+     * Actualiza los datos de una reserva existente.
+     * Solicita al usuario que ingrese el ID de la reserva a actualizar,
+     * verifica que exista y luego solicita los nuevos datos para actualizar la reserva.
+     * 
+     * @param reservaServ Servicio de reservas que contiene la lógica de negocio
      */
     
     private static void actualizarReserva(ReservaService reservaServ) {
@@ -168,7 +204,12 @@ public class MenuAppReservas {
     }
     
     /**
-     * Elimina una reserva existente
+     * Elimina una reserva existente del sistema.
+     * Solicita al usuario que ingrese el ID de la reserva a eliminar,
+     * verifica que exista, muestra sus datos y pide confirmación antes de eliminarla.
+     * 
+     * @param reservaServ Servicio de reservas que contiene la lógica de negocio
+     * @param consola Scanner utilizado para leer la entrada del usuario
      */
     
     private static void eliminarReserva(ReservaService reservaServ, Scanner consola) {
@@ -197,6 +238,5 @@ public class MenuAppReservas {
                 System.out.println("No existe una reserva con el ID proporcionado.");
             }
         }
-    }
-		
+    }		
 }

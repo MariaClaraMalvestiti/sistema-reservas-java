@@ -11,16 +11,37 @@ import reservasDB.datos.IReservaDAO;
 import reservasDB.datos.ReservaDAO;
 import reservasDB.dominio.Reserva;
 
+/**
+ * Clase de servicio que proporciona la lógica de negocio para gestionar reservas.
+ * Actúa como intermediario entre la capa de presentación y la capa de acceso a datos.
+ * Esta clase maneja la validación de datos, interacción con el usuario y operaciones CRUD
+ * relacionadas con las reservas.
+ */
+
 public class ReservaService {
 	private Scanner consola;
     private IReservaDAO reservaDao;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
+    
+    /**
+     * Constructor que inicializa el servicio con un objeto Scanner para la entrada de usuario
+     * y crea una nueva instancia del DAO para acceder a los datos de reservas.
+     * 
+     * @param consola Scanner utilizado para la entrada de datos por consola
+     */
+    
     public ReservaService(Scanner consola) {
         this.consola = consola;
         this.reservaDao = new ReservaDAO();
     }
-
+    
+    /**
+     * Muestra todas las reservas existentes en la consola.
+     * 
+     * @return true si existen reservas y se mostraron correctamente,
+     *         false si no hay reservas disponibles.
+     */
+   
 	public boolean mostrarReservas() {
 	    List<Reserva> listadoReservas = reservaDao.listarReservas();
 	    if(!listadoReservas.isEmpty()) { 
@@ -31,24 +52,57 @@ public class ReservaService {
 	     return false;
 	}
 	
+	/**
+     * Busca una reserva por su ID utilizando el DAO.
+     * 
+     * @param reserva Objeto Reserva que contiene el ID a buscar. Si se encuentra,
+     *                sus propiedades se actualizarán con los datos de la reserva encontrada.
+     * @return true si la reserva fue encontrada, false en caso contrario.
+     */
+	
 	public boolean buscarReserva(Reserva reserva) {
 			return reservaDao.buscarReservaPorId(reserva);
 	}
 	
+	/**
+     * Inserta una nueva reserva en la base de datos.
+     * 
+     * @param reserva Objeto Reserva con los datos a insertar.
+     * @return true si la inserción fue exitosa, false en caso contrario.
+     */
+	
 	public boolean insertarReserva(Reserva reserva) {			
 				return reservaDao.agregarReserva(reserva);
 			}
+	
+	/**
+     * Modifica los datos de una reserva existente.
+     * 
+     * @param reserva Objeto Reserva con los datos actualizados y el ID de la reserva a modificar.
+     * @return true si la actualización fue exitosa, false en caso contrario.
+     */
 			
 	public boolean modificarReserva (Reserva reserva) {
 				return reservaDao.actualizarReserva(reserva);
 			}
 	
+	/**
+     * Elimina una reserva de la base de datos.
+     * 
+     * @param reserva Objeto Reserva que contiene el ID de la reserva a eliminar.
+     * @return true si la eliminación fue exitosa, false en caso contrario.
+     */
+	
 	public boolean borrarReserva (Reserva reserva) {
 		return reservaDao.eliminarReserva(reserva);		
 	}
 	
-	/**
-     * Verifica si una cadena contiene solo caracteres alfabéticos
+	 /**
+     * Verifica si una cadena contiene solo caracteres alfabéticos.
+     * 
+     * @param texto Cadena a verificar.
+     * @return true si la cadena no es nula, no está vacía y contiene solo letras,
+     *         false en caso contrario.
      */
 	
 	public boolean esAlfabetico(String texto) {
@@ -56,7 +110,11 @@ public class ReservaService {
 	}
 	
 	/**
-     * Solicita y valida el ID de una reserva
+     * Solicita y valida el ID de una reserva a través de la consola.
+     * Continúa solicitando el ID hasta que se ingrese un valor válido (entero positivo).
+     * 
+     * @param reserva Objeto Reserva en el que se establecerá el ID validado.
+     * @return true cuando se ha completado la validación exitosamente.
      */
 	
 	public boolean validarId (Reserva reserva) {
@@ -77,8 +135,12 @@ public class ReservaService {
 		return true;
 	}
 	
-    /**
-     * Solicita y valida el nombre de una reserva
+	 /**
+     * Solicita y valida el nombre de la persona que realiza la reserva a través de la consola.
+     * Continúa solicitando el nombre hasta que se ingrese un valor válido (solo letras).
+     * 
+     * @param reserva Objeto Reserva en el que se establecerá el nombre validado.
+     * @return true cuando se ha completado la validación exitosamente.
      */
 	
 	public boolean validarNombreReserva (Reserva reserva) {
@@ -98,8 +160,13 @@ public class ReservaService {
 		}
 			return true;
 	}		
-	/**
-     * Solicita y valida el apellido de una reserva
+	
+	 /**
+     * Solicita y valida el apellido de la persona que realiza la reserva a través de la consola.
+     * Continúa solicitando el apellido hasta que se ingrese un valor válido (solo letras).
+     * 
+     * @param reserva Objeto Reserva en el que se establecerá el apellido validado.
+     * @return true cuando se ha completado la validación exitosamente.
      */
 	
 	public boolean validarApellidoReserva (Reserva reserva) {
@@ -121,7 +188,12 @@ public class ReservaService {
 	}
 	
 	 /**
-     * Solicita y valida la fecha de una reserva
+     * Solicita y valida la fecha de la reserva a través de la consola.
+     * Continúa solicitando la fecha hasta que se ingrese un valor válido en formato dd/MM/yyyy
+     * y que no sea anterior a la fecha actual.
+     * 
+     * @param reserva Objeto Reserva en el que se establecerá la fecha validada.
+     * @return true cuando se ha completado la validación exitosamente.
      */
 	
 	public boolean validarFechaReserva(Reserva reserva) {
@@ -149,8 +221,13 @@ public class ReservaService {
 		return true;
 	}
 	
-	 /**
-     * Solicita y valida la hora de una reserva
+	/**
+     * Solicita y valida la hora de la reserva a través de la consola.
+     * Continúa solicitando la hora hasta que se ingrese un valor válido en formato HH:mm
+     * y que esté dentro del horario de atención (09:00 - 21:00).
+     * 
+     * @param reserva Objeto Reserva en el que se establecerá la hora validada.
+     * @return true cuando se ha completado la validación exitosamente.
      */
 	
 	public boolean validarHoraReserva (Reserva reserva) { 
